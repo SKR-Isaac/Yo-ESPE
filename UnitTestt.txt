@@ -1,0 +1,111 @@
+test_reverso.py:
+def reverso(cadena):
+    return cadena[::-1]
+
+def test_reverso_palabra():
+    assert reverso("hola") == "aloh"
+
+def test_reverso_vacio():
+    assert reverso("") == ""
+
+def test_reverso_numeros():
+    assert reverso("1234") == "4321"
+--------------------------------------
+test_palindromo.py:
+def es_palindromo(palabra):
+    palabra = palabra.lower().replace(" ", "")
+    return palabra == palabra[::-1]
+
+def test_palindromo_true():
+    assert es_palindromo("Reconocer")
+
+def test_palindromo_false():
+    assert not es_palindromo("Python")
+
+def test_palindromo_con_espacios():
+    assert es_palindromo("anita lava la tina")
+---------------------------------------
+test_busqueda.py:
+def buscar_elemento(lista, elemento):
+    return elemento in lista
+
+def test_busqueda_encontrado():
+    assert buscar_elemento([1, 2, 3], 2)
+
+def test_busqueda_no_encontrado():
+    assert not buscar_elemento(["a", "b", "c"], "z")
+
+def test_busqueda_vacia():
+    assert buscar_elemento([], 1) is False
+------------------------------------------------
+test_mayusculas.py:
+import pytest
+
+def convertir_a_mayusculas(cadena):
+    return cadena.upper()
+
+@pytest.mark.parametrize("entrada,esperado", [
+    ("hola", "HOLA"),
+    ("Python", "PYTHON"),
+    ("123abc", "123ABC")
+])
+def test_convertir_a_mayusculas(entrada, esperado):
+    assert convertir_a_mayusculas(entrada) == esperado
+--------------------------------------------------------
+test_validar_email.py:
+import pytest  # Importamos pytest para usar la parametrización
+
+def es_email_valido(cadena):
+    """Función simple para validar si una cadena tiene formato básico de email."""
+    if "@" not in cadena or "." not in cadena:
+        return False
+    # Para simplificar, solo verificamos que haya un '@' y un '.' después de él
+    usuario, dominio = cadena.split("@", 1)
+    return "." in dominio and usuario != "" and dominio != ""
+
+# Usamos @pytest.mark.parametrize para probar varios casos en un solo test
+@pytest.mark.parametrize("entrada, esperado", [
+    ("usuario@example.com", True),
+    ("no_es_email", False),
+    ("@no_usuario.com", False),
+    ("usuario@dominio", False),
+    ("usuario@dominio.com", True),
+    ("usuario@dominio.co.uk", True),
+    ("", False),
+])
+def test_es_email_valido(entrada, esperado):
+    assert es_email_valido(entrada) == esperado
+--------------------------------------------------
+test_primos.py:
+import pytest
+
+def es_primo(n):
+    """Función para determinar si un número es primo."""
+    if n <= 1:
+        return False
+    if n <= 3:
+        return True
+    if n % 2 == 0 or n % 3 == 0:
+        return False
+    i = 5
+    while i * i <= n:
+        if n % i == 0 or n % (i + 2) == 0:
+            return False
+        i += 6
+    return True
+
+@pytest.mark.parametrize("numero, esperado", [
+    (2, True),
+    (3, True),
+    (4, False),
+    (5, True),
+    (9, False),
+    (11, True),
+    (1, False),
+    (0, False),
+    (-7, False),
+])
+def test_es_primo(numero, esperado):
+    assert es_primo(numero) == esperado
+--------------------------------------------------
+
